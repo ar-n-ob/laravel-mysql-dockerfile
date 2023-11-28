@@ -9,29 +9,13 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
 
-RUN apk update && apk add --no-cache supervisor && \
-    apk add \
-        git \
-        curl \
-        nginx \
-        supervisor \
-        libpng-dev \
-        libxml2-dev \
-        libmcrypt-dev \
-        libpq-dev \
-        postgresql-dev
-
-# RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && docker-php-ext-install pdo pdo_pgsql pgsql
-
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-
-RUN apk add icu-dev 
-
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql && docker-php-ext-enable pdo_mysql && docker-php-ext-install sockets
-
+RUN apk update 
+RUN apk add --no-cache supervisor
+RUN apk add git curl nginx icu-dev
+    
 RUN docker-php-ext-configure intl
-
-RUN docker-php-ext-install bcmath exif opcache intl
+RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath exif opcache intl sockets
+RUN docker-php-ext-enable pdo_mysql 
 
 # File Coping
 COPY docker/php/php.ini   $PHP_INI_DIR/conf.d/local.ini
