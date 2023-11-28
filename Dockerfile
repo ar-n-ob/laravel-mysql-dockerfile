@@ -18,7 +18,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath exif opcache intl sockets
 RUN docker-php-ext-enable pdo_mysql 
 
 # File Coping
-COPY docker/php/php.ini   $PHP_INI_DIR/conf.d/local.ini
+COPY docker/php/php.ini     $PHP_INI_DIR/conf.d/local.ini
 COPY docker/php/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
 
 WORKDIR /var/www/html
